@@ -27,19 +27,24 @@ Easydao是简单易用的轻量级DAO(Data Access Object)框架，它集成了Hi
 ###接口和SQL文件对应目录  
 #####接口文件[EmpDao.java]
 ```java
-   @DAO
-   public interface EmpDao {
-   @Sql("select * from emp")   
-   List<Map<String,Object>> selectAll();   
-   @Sql("select * from emp where empno = :empno")   
-   Map<String,Object> selectOne(@Param("empno") int empno);   
-   @Sql(value="select * from emp where deptno = :dept.deptno", bean=Emp.class)   
-   List<Emp> selectDeptEmp(@Param("deptno")Dept dept, @Param(Param.pageIndex)int  pageIndex,@Param(Param.pageSize)int pageSize);   
-   @Sql(bean = Emp.class)   
-   List<Emp> queryEmp(@Param("dept") Dept dept);   
-   @Sql("select count(*) from emp")   
-   int listCount(ResultTransformer transformer);   
-   }   
+  @DAO
+public interface EmpDao {
+
+    @Sql("select * from emp")
+    List<Map<String,Object>> selectAll();
+    
+    @Sql("select * from emp where empno = :empno")
+    Map<String,Object> selectOne(@Param("empno") int empno);
+    
+    @Sql(value="select * from emp where deptno = :dept.deptno", bean=Emp.class)
+    List<Emp> selectDeptEmp(@Param("deptno")Dept dept, @Param(Param.pageIndex)int pageIndex,@Param(Param.pageSize)int pageSize);
+    
+    @Sql(bean = Emp.class)
+    List<Emp> queryEmp(@Param("dept") Dept dept);
+
+    @Sql("select count(*) from emp")
+    int listCount(ResultTransformer transformer);
+}
 ```
 ####SQL文件[EmpDao_queryEmp.sql]  
 ```java
@@ -51,24 +56,29 @@ Easydao是简单易用的轻量级DAO(Data Access Object)框架，它集成了Hi
 ```
 ####测试代码  
 ```java
-   @RunWith(SpringJUnit4ClassRunner.class)   
-   @ContextConfiguration({   
-       "classpath:/META-INF/spring/*.xml"   
-   })   
-   @Transactional   
-   public class EmpService{   
-   @Resource   
-   private EmpDao empDao;   
-   @Test   
-   public void test() {   
-    try {   
-        Dept dept = new Dept();   
-        dept.setDeptno(30);   
-        System.out.println(empDao.queryEmp(dept).size());   
-    }   
-    catch (Exception e) {   
-        e.printStackTrace();   
-    }   
-   }   
-   }   
+  @RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration({
+    "classpath:/META-INF/spring/*.xml"
+})
+@Transactional
+public class EmpService {
+
+    @Resource
+    private EmpDao empDao;
+
+    @Test
+    public void test() {
+        try {
+            Dept dept = new Dept();
+            dept.setDeptno(30);
+
+            System.out.println("------------------");
+            System.out.println(empDao.queryEmp(dept).size());
+            System.out.println("------------------");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+ }
 ```
