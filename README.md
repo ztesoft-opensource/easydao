@@ -24,11 +24,11 @@ Easydao是简单易用的轻量级DAO(Data Access Object)框架，它集成了Hi
  7.MiniDao整合了Hibernate+mybatis的两大优势，支持实体维护和SQL分离  
  8.SQL支持脚本语言  
  9.可以无缝集成Hibernate、Spring等第三方框架，也可以单独部署运行，适应性强。  
-
 ###接口和SQL文件对应目录  
-####接口文件[EmpDao.java]
-   @DAO   
-   public interface EmpDao {   
+#####接口文件[EmpDao.java]
+```java
+   @DAO
+   public interface EmpDao {
    @Sql("select * from emp")   
    List<Map<String,Object>> selectAll();   
    @Sql("select * from emp where empno = :empno")   
@@ -40,15 +40,17 @@ Easydao是简单易用的轻量级DAO(Data Access Object)框架，它集成了Hi
    @Sql("select count(*) from emp")   
    int listCount(ResultTransformer transformer);   
    }   
-
-####SQL文件[EmpDao_queryEmp.sql]   
+```
+####SQL文件[EmpDao_queryEmp.sql]  
+```java
    select * from emp where   
    1=1   
    #if($dept)   
    and deptno=$dept.deptno   
    #end   
-
-####测试代码   
+```
+####测试代码  
+```java
    @RunWith(SpringJUnit4ClassRunner.class)   
    @ContextConfiguration({   
        "classpath:/META-INF/spring/*.xml"   
@@ -69,3 +71,4 @@ Easydao是简单易用的轻量级DAO(Data Access Object)框架，它集成了Hi
     }   
    }   
    }   
+```
